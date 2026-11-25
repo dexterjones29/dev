@@ -1,11 +1,11 @@
 [build-system]
-requires = ['steuptools>=69']
+requires = ['setuptools>=69']
 build-backend = 'setuptools.build_meta'
 
 [project]
 name = 'control-automation'
 version = '0.1.0'
-requires-python = '>=3.15'
+requires-python = '>=3.14'
 dependencies = [
     'cryptography',
     'db-dtypes',
