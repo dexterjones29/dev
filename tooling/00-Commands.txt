@@ -1,0 +1,41 @@
+.\.venv\Scripts\Activate.ps1
+
+
+# In your VM terminal to exclude .env:
+echo ".env" >> .gitignore
+
+
+Git Commands - Day-to-Day
+# ------------------------
+
+# 1. Check what files you've modified or added
+git status
+
+# 2. Stage all your changes for the next save point
+git add .
+
+# 3. Create the save point with a short description
+git commit -m "Refactored SharePoint auth logic in shared_utils"
+
+# 4. See the history of your save points
+git log --oneline
+
+
+Git Repo Setup
+# ------------
+# Navigate to your project folder on the VM
+cd /path/to/your/scripts/folder
+
+# Initialize local Git tracking
+git init
+
+# Configure your name and email for commit logs
+git config user.name "Your Name"
+git config user.email "your.email@keybank.com"
+
+# Stage all existing files (including your shared_utils.py)
+git add .
+
+# Create your initial baseline commit
+git commit -m "Initial commit: Core risk automation scripts and shared utilities"
+

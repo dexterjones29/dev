@@ -1,0 +1,34 @@
+[build-system]
+requires = ['steuptools>=69']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'control-automation'
+version = '0.1.0'
+requires-python = '>=3.15'
+dependencies = [
+    'cryptography',
+    'db-dtypes',
+    'google-cloud-bigquery',
+    'google-cloud-bigquery-storage',
+    'google-cloud-secret-manager',
+    'google-cloud-storage',
+    'matplotlib',
+    'msal',
+    'numpy',
+    'Office365-REST-Python-Client',
+    'openpyxl',
+    'pandas',
+    'pretty-html-table',
+    'pyarrow',
+    'PyMuPDF',
+    'python-dateutil',
+    'python-docx',
+    'python-dotenv',
+    'requests',
+    'reportlab',
+    'XlsxWriter'
+]
+
+[tools.setuptools]
+packages = ['utilities']
