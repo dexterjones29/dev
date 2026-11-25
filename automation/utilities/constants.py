@@ -12,6 +12,19 @@ Shared Constants Package
 - PROJECT_BOARD
 
 Google Cloud Runtime Configuration
+- ARTIFACT_REGION
+- CLOUD_RUN_REGION
+- SCHEDULER_REGION
+- SCHEDULER_TIME_ZONE
+- ARTIFACT_REPOSITORY
+- CONTROL_IMAGE_NAME
+- CLOUD_RUN_SERVICE_ACCOUNT
+- VPC_CONNECTOR
+- CLOUD_RUN_CPU
+- CLOUD_RUN_MEMORY
+- CLOUD_RUN_TASKS
+- CLOUD_RUN_MAX_RETRIES
+- CLOUD_RUN_TIMEOUT
 
 Control Automation Configuration
 - EXECUTION_STATUSES
@@ -33,6 +46,10 @@ Notifications
 System Links
 - BIGQUERY_CONSOLE
 - MONDAY_BOARD
+
+SharePoint Configuration
+- SHAREPOINT_ROOT
+- AUTOMATION_SITE
 - SHAREPOINT_DEPARTMENTS
 """
 
@@ -46,6 +63,22 @@ CONFIG_STAGE = f'{DATASET}.CONFIG_STAGE'
 DIAGNOSTIC_LOG = f'{DATASET}.DIAGNOSTIC_LOG'
 EXECUTION_LOG = f'{DATASET}.EXECUTION_LOG'
 PROJECT_BOARD = f'{DATASET}.PROJECT_BOARD'
+
+# Google Cloud Runtime Configuration
+ARTIFACT_REGION = 'us'
+CLOUD_RUN_REGION = 'us-central1'
+SCHEDULER_REGION = 'us-central1'
+SCHEDULER_TIME_ZONE = 'America/New_York'
+
+ARTIFACT_REPOSITORY = 'control-automation'
+CONTROL_IMAGE_NAME = 'control-automation'
+CLOUD_RUN_SERVICE_ACCOUNT = f'hub-service-account@{PROJECT}.iam.gserviceaccount.com'
+VPC_CONNECTOR = 'projects/cdv-ntwktaw1-prod-0000.locations/us-central1/connectors/svac-prod-usc1-01'
+CLOUD_RUN_CPU = '1'
+CLOUD_RUN_MEMORY = '512Mi'
+CLOUD_RUN_TASKS = '1'
+CLOUD_RUN_MAX_RETRIES = '3'
+CLOUD_RUN_TIMEOUT = '600s'
 
 EXECUTION_STATUSES = {
     'SUCCESS', 'SUCCESS_ZERO_RESULTS', 'SUCCESS_WITH_WARNING',
@@ -122,6 +155,10 @@ CB_Risk_Control_Automation@keybank.com
 BIGQUERY_CONSOLE = 'https://console.cloud.google.com/bigquery?project=taw-entpayments-prod-2935&supportedpurview=project&ws=!1m0pli=1'
 
 MONDAY_BOARD = 'https://keybank-org.monday.com/boards'
+
+SHAREPOINT_ROOT = 'https://kbna.sharepoint.com'
+
+AUTOMATION_SITE = '/sites/CBControlAuto'
 
 SHAREPOINT_DEPARTMENTS = {
     '1LOD': {

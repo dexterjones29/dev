@@ -1,5 +1,9 @@
+
+# Activate Virtual Environment
 .\.venv\Scripts\Activate.ps1
 
+# Install utilities as a readable package
+python -m pip install -e C:\Users\dexte\dev\automation
 
 # In your VM terminal to exclude .env:
 echo ".env" >> .gitignore

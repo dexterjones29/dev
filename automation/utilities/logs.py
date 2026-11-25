@@ -94,13 +94,106 @@ def log_diagnostic(
         'EVENT_SEQUENCE': event_sequence,
         'MBU': run_context['MBU'],
         'PROCEDURE_ID': run_context['PROCEDURE_ID'],
-        
-
+        'CONTROL_PROCEDURE': run_context['CONTROL_PROCEDURE'],
+        'EXECUTION_MODE': run_context['EXECUTION_MODE'],
+        'STEP_NAME': step_name.strip().upper(),
+        'COMPONENT': component,
+        'STATUS': status,
+        'SOURCE_OBJECT': source_object,
+        'SOURCE_FIELD': source_field,
+        'EXPECTED_VALUE': str(expected_value) if expected_value is not None else None,
+        'OBSERVED_VALUE': str(observed_value) if observed_value is not None else None,
+        'ROW_COUNT': row_count,
+        'QUERY_JOB_ID': query_job_id,
+        'BYTES_PROCESSED': bytes_processed,
+        'QUERY_DURATION_SECONDS': query_duration_seconds,
+        'RECORD_ID': str(record_id) if record_id is not None else None,
+        'DESTINATION_LOCATION': destination_location,
+        'DETAIL_MESSAGE': detail_message,
+        'ERROR_MESSAGE': str(error_message) if error_message else None
     }]
 
     client.load_table_from_dataframe(pd.DataFrame(row), DIAGNOSTIC_LOG).result()
     return row[0]
 
+def log_execution(
+        run_context,
+        status,
+        population_evaluated=None,
+        results_identified=None,
+        results_inserted=None,
+        results_skipped=None,
+        configuration_status=None,
+        freshness_status=None,
+        population_query_status=None,
+        review_query_status=None,
+        history_write_status=None,
+        review_write_status=None,
+        email_status=None,
+        intended_recipients=None,
+        actual_recipients=None,
+        email_subject=None,
+        image_tag=None,
+        git_commit=None,
+        config_hash=None,
+        population_query_hash=None,
+        review_query_hash=None,
+        error_step=None,
+        error_message=None,
+        client=None,
+):
+    """Write one run-level execution record and finalize execution timing."""
+    if client is None:
+        client = bq.get_client()
 
-def log_execution():
-    """"""
+    status = status.strip().upper()
+
+    if status not in EXECUTION_STATUSES:
+        raise ValueError(f'Invalid execution status: {status}')
+
+    end_time = pd.Timestamp.now(tz='UTC').floor('s')
+    start_time = pd.Timestamp(run_context['RUN_TIME_START_UTC']).floor('s')
+    duration_seconds = int((end_time - start_time).total_seconds())
+    run_context['RUN_TIME_END_UTC'] = end_time
+    run_context['DURATION_SECONDS'] = duration_seconds
+
+    intended_recipients = ';'.join(intended_recipients) if isinstance(intended_recipients, (list, tuple)) else intended_recipients
+    actual_recipients = ';'.join(actual_recipients) if isinstance(actual_recipients, (list, tuple)) else actual_recipients
+
+    row = [{
+        'RUN_ID': run_context['RUN_ID'],
+        'RUN_TIME_START_UTC': start_time,
+        'RUN_TIME_END_UTC': end_time,
+        'DURATION_SECONDS': duration_seconds,
+        'MBU': run_context['MBU'],
+        'PROCEDURE_ID': run_context['PROCEDURE_ID'],
+        'CONTROL_PROCEDURE': run_context['CONTROL_PROCEDURE'],
+        'EXECUTION_MODE': run_context['EXECUTION_MODE'],
+        'TRIGGER_TYPE': run_context['TRIGGER_TYPE'],
+        'RERUN_IND': run_context['RERUN_IND', False],
+        'STATUS': status,
+        'POPULATION_EVALUATED': population_evaluated,
+        'RESULTS_IDENTIFIED': results_identified,
+        'RESULTS_INSERTED': results_inserted,
+        'RESULTS_SKIPPED': results_skipped,
+        'CONFIGURATION_STATUS': configuration_status,
+        'FRESHNESS_STATUS': freshness_status,
+        'POPULATION_QUERY_STATUS': population_query_status,
+        'REVIEW_QUERY_STATUS': review_query_status,
+        'HISTORY_WRITE_STATUS': history_write_status,
+        'REVIEW_WRITE_STATUS': review_write_status,
+        'EMAIL_STATUS': email_status,
+        'INTENDED_RECIPIENTS': intended_recipients,
+        'ACTUAL_RECIPIENTS': actual_recipients,
+        'EMAIL_SUBJECT': email_subject,
+        'IMAGE_TAG': image_tag,
+        'GIT_COMMIT': git_commit,
+        'CONFIG_HASH': config_hash,
+        'POPULATION_QUERY_HASH': population_query_hash,
+        'REVIEW_QUERY_HASH': review_query_hash,
+        'ERROR_STEP': error_step,
+        'ERROR_MESSAGE': str(error_message) if error_message else None
+    }]
+
+    client.load_table_from_dataframe(pd.DataFrame(row), EXECUTION_LOG).result()
+    return row[0]

@@ -14,4 +14,7 @@ COPY . .
 
 ENV PYTHONPATH=/app
 
+RUN useradd -m appuser
+USER appuser
+
 CMD ["python", "automation/COS_CP_11226203.py"]
