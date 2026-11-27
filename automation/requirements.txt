@@ -12,7 +12,7 @@ openpyxl
 pandas
 pretty-html-table
 pyarrow
-PyMuPDF
+pymupdf
 python-dateutil
 python-docx
 python-dotenv

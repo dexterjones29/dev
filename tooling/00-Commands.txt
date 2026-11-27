@@ -5,6 +5,9 @@
 # Install utilities as a readable package
 python -m pip install -e C:\Users\dexte\dev\automation
 
+# Test utilities to make sure the package is accessible
+python -c "from utilities import bq; print('success')"
+
 # In your VM terminal to exclude .env:
 echo ".env" >> .gitignore
 
