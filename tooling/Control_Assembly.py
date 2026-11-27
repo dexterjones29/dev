@@ -292,7 +292,7 @@ def build_merge_condition():
 
 def get_null_expression(column: str, data_type: str) -> str:
     """Return a typed NULL expression for the persistence summary row."""
-    return f'CAST(NULL AS {{data_type}} as {{column}})
+    return f'CAST(NULL AS {{data_type}} as {{column}}'
 
 def merge_records(query: str, run_time, run_context) -> tuple[pd.DataFrame, int, int, int]:
     """Add new results to history and return the current run results and counts."""
@@ -336,11 +336,11 @@ def merge_records(query: str, run_time, run_context) -> tuple[pd.DataFrame, int,
     , results_identified as RESULTS_IDENTIFIED
     , results_inserted as RESULTS_INSERTED
     , CAST(NULL AS TIMESTAMP) as RUN_TIME_UTC
-    , CAST(NULL AS STRING) asUNIQUE_ID
+    , CAST(NULL AS STRING) as UNIQUE_ID
     , {{summary_nulls}}
     """
 
-    start_time = pd.Timestamp.now(tz='UTC).floor('s)
+    start_time = pd.Timestamp.now(tz='UTC').floor('s')
 
     try:
         query_job = client.query(query)
@@ -378,7 +378,7 @@ def merge_records(query: str, run_time, run_context) -> tuple[pd.DataFrame, int,
             )
         raise
 
-def get_control_results(run_context) -> tuple.[pd.DataFram, int, int, int, int, str, str]:
+def get_control_results(run_context) -> tuple[pd.DataFrame, int, int, int, int, str, str]:
     """Execute the control queries, persist new results, return results, counts, and query hashes."""
     bq.create_history_table(HISTORY_TABLE, RESULT_SCHEMA, client=client)
     population_query = query_population_evaluated()
@@ -400,7 +400,7 @@ def send_notifications(results, population_evaluated, result_location, run_conte
         control_procedure=CONTROL_PROCEDURE,
         history_table=HISTORY_TABLE,
         population_evaluated=population_evaluated,
-        run_time=run_context['RUN_TIME_START_UTC']
+        run_time=run_context['RUN_TIME_START_UTC'],
         result_location=result_location
     )
 
@@ -449,7 +449,7 @@ def main():
                     f"{{row['TABLE_ID']}}\\n"
                     f"Required: {{row['REQUIRED_DT']}}\\n"
                     f"Observed: {{row['MAX_DT']}}"
-                    for _, row in stale_tables.itterows()
+                    for _, row in stale_tables.iterrows()
                 )
             )
 
